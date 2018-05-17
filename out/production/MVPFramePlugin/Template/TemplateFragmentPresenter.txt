@@ -1,0 +1,20 @@
+package $packagename;
+
+import $basepackagename.base.mvp.FragmentPresenter;
+
+import javax.inject.Inject;
+
+ /**
+  * <pre>
+  *     author: $author
+  *     time  : $date
+  *     desc  : $description
+  * </pre>
+  */
+public class $namePresenter extends FragmentPresenter<$nameContract.IView, $nameMoudle> implements $nameContract.IPresenter
+{
+    @Inject
+    public $namePresenter()
+    {
+    }
+}

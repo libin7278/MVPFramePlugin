@@ -1,0 +1,37 @@
+<idea-plugin>
+  <id>com.libin.mvpframe.plugin.id</id>
+  <name>MVPFrame</name>
+  <version>1.0</version>
+  <vendor email="524607562@qq.com" url="http://blog.csdn.net/github_33304260?viewmode=contents">xzxj</vendor>
+
+  <description><![CDATA[
+      MVPFrame配套一键代码生成plugin<br>
+      <em> 微信: li3979312 小伙伴们记得备注</em>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="141.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+    <action id="LiBin.MvpFrame.ID" class="com.libin.MvpFrameAction" text="MvpFrame" description="生成mvp框架代码">
+      <add-to-group group-id="ToolsMenu" anchor="first"/>
+    </action>
+  </actions>
+
+</idea-plugin>

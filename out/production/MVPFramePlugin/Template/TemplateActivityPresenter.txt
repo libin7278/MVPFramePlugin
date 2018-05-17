@@ -1,0 +1,34 @@
+package $packagename;
+
+import $basepackagename.base.mvp.ActivityPresenter;
+
+import javax.inject.Inject;
+
+ /**
+  * <pre>
+  *     author: $author
+  *     time  : $date
+  *     desc  : $description
+  * </pre>
+  */
+public class $namePresenter extends BasePresenter<$nameContract.Model, $nameContract.View> {
+    @Inject
+    RxErrorHandler mErrorHandler;
+    @Inject
+    AppManager mAppManager;
+    @Inject
+    Application mApplication;
+
+    @Inject
+    public $namePresenter($nameContract.Model model, $nameContract.View rootView) {
+        super(model, rootView);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.mErrorHandler = null;
+        this.mAppManager = null;
+        this.mApplication = null;
+    }
+}

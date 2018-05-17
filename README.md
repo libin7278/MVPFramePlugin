@@ -1,2 +1,2 @@
-# MVPFramePlugin
-配合MVPFrame使用的一键代码生成插件
+# dimens-convert
+一键生成MVPFrame所需的代码

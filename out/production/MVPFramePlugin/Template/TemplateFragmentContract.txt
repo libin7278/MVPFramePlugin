@@ -1,0 +1,26 @@
+package $packagename;
+
+import $basepackagename.base.mvp.FragmentView;
+import $basepackagename.base.mvp.Moudle;
+
+ /**
+  * <pre>
+  *     author: $author
+  *     time  : $date
+  *     desc  : $description
+  * </pre>
+  */
+public interface $nameContract
+{
+    interface IMoudle extends Moudle
+    {
+    }
+
+    interface IView extends FragmentView
+    {
+    }
+
+    interface IPresenter
+    {
+    }
+}

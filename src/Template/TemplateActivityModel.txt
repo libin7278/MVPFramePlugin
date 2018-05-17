@@ -1,0 +1,23 @@
+package $packagename;
+
+import com.xzxj.frame.injection.scope.ActivityScope;
+import com.xzxj.frame.integration.IRepositoryManager;
+import com.xzxj.frame.mvp.BaseModel;
+
+import javax.inject.Inject;
+
+ /**
+  * <pre>
+  *     author: $author
+  *     time  : $date
+  *     desc  : $description
+  * </pre>
+  */
+@ActivityScope
+public class $nameModel extends BaseModel implements $nameContract.Model {
+
+    @Inject
+    public $nameModel(IRepositoryManager repositoryManager) {
+        super(repositoryManager);
+    }
+}
