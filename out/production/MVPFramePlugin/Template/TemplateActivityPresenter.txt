@@ -1,8 +1,13 @@
 package $packagename;
 
-import $basepackagename.base.mvp.ActivityPresenter;
+import android.app.Application;
+
+import com.xzxj.frame.integration.AppManager;
+import com.xzxj.frame.mvp.BasePresenter;
 
 import javax.inject.Inject;
+
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
  /**
   * <pre>

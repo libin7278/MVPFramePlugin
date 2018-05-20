@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.xzxj.frame.base.BaseActivity;
 import com.xzxj.frame.injection.component.AppComponent;
-import io.reactivex.subjects.Subject;
 
  /**
   * <pre>
@@ -23,14 +21,14 @@ public class $nameActivity extends BaseActivity<$namePresenter> implements $name
            Dagger$nameComponent
                    .builder()
                    .appComponent(appComponent)
-                   .mainModule(new $nameModule(this))
+                   .$lNameModule(new $nameModule(this))
                    .build()
                    .inject(this);
    }
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.$appName_activity$xmlhumptoline;
+        return R.layout.activity_$xmlhumptoline;
     }
 
     @Override

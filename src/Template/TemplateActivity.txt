@@ -28,7 +28,7 @@ public class $nameActivity extends BaseActivity<$namePresenter> implements $name
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.$activity_appName$xmlhumptoline;
+        return R.layout.activity_$xmlhumptoline;
     }
 
     @Override

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_mvpframeplugin" default="compile.module.mvpframeplugin">
+  <dirname property="module.mvpframeplugin.basedir" file="${ant.file.module_mvpframeplugin}"/>
+  
+  <property name="module.jdk.home.mvpframeplugin" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.mvpframeplugin" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.mvpframeplugin" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.mvpframeplugin" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="mvpframeplugin.output.dir" value="${module.mvpframeplugin.basedir}/out/production/MVPFramePlugin"/>
+  <property name="mvpframeplugin.testoutput.dir" value="${module.mvpframeplugin.basedir}/out/test/MVPFramePlugin"/>
+  
+  <path id="mvpframeplugin.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mvpframeplugin.module.production.classpath">
+    <path refid="${module.jdk.classpath.mvpframeplugin}"/>
+  </path>
+  
+  <path id="mvpframeplugin.runtime.production.module.classpath">
+    <pathelement location="${mvpframeplugin.output.dir}"/>
+  </path>
+  
+  <path id="mvpframeplugin.module.classpath">
+    <path refid="${module.jdk.classpath.mvpframeplugin}"/>
+    <pathelement location="${mvpframeplugin.output.dir}"/>
+  </path>
+  
+  <path id="mvpframeplugin.runtime.module.classpath">
+    <pathelement location="${mvpframeplugin.testoutput.dir}"/>
+    <pathelement location="${mvpframeplugin.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mvpframeplugin">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mvpframeplugin">
+    <patternset refid="excluded.from.module.mvpframeplugin"/>
+  </patternset>
+  
+  <path id="mvpframeplugin.module.sourcepath">
+    <dirset dir="${module.mvpframeplugin.basedir}">
+      <include name="src"/>
+      <include name="resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.mvpframeplugin" depends="compile.module.mvpframeplugin.production,compile.module.mvpframeplugin.tests" description="Compile module MVPFramePlugin"/>
+  
+  <target name="compile.module.mvpframeplugin.production" depends="register.custom.compilers" description="Compile module MVPFramePlugin; production classes">
+    <mkdir dir="${mvpframeplugin.output.dir}"/>
+    <javac2 destdir="${mvpframeplugin.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.mvpframeplugin}/javac">
+      <compilerarg line="${compiler.args.mvpframeplugin}"/>
+      <bootclasspath refid="mvpframeplugin.module.bootclasspath"/>
+      <classpath refid="mvpframeplugin.module.production.classpath"/>
+      <src refid="mvpframeplugin.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mvpframeplugin"/>
+    </javac2>
+    
+    <copy todir="${mvpframeplugin.output.dir}">
+      <fileset dir="${module.mvpframeplugin.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.mvpframeplugin.basedir}/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.mvpframeplugin.tests" depends="register.custom.compilers,compile.module.mvpframeplugin.production" description="compile module MVPFramePlugin; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.mvpframeplugin" description="cleanup module">
+    <delete dir="${mvpframeplugin.output.dir}"/>
+    <delete dir="${mvpframeplugin.testoutput.dir}"/>
+  </target>
+  
+  <property name="mvpframeplugin.plugin.path.jar" value="${module.mvpframeplugin.basedir}/MVPFramePlugin.jar"/>
+  
+  <!-- Build archive for plugin 'MVPFramePlugin' -->
+  <target name="plugin.build.jar.mvpframeplugin" depends="compile.module.mvpframeplugin" description="Build plugin archive for module &#39;MVPFramePlugin&#39;">
+    <jar destfile="${mvpframeplugin.plugin.path.jar}" duplicate="preserve">
+      <zipfileset dir="${module.mvpframeplugin.basedir}/out/production/MVPFramePlugin"/>
+      <zipfileset file="${module.mvpframeplugin.basedir}/resources/META-INF/plugin.xml" prefix="META-INF"/>
+      <manifest>
+        <attribute name="Created-By" value="IntelliJ IDEA"/>
+        <attribute name="Manifest-Version" value="1.0"/>
+      </manifest>
+    </jar>
+  </target>
+</project>

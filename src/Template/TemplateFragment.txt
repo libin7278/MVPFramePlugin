@@ -40,7 +40,7 @@ public class $nameFragment extends BaseFragment<SecondPresenter> implements Seco
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.$fragment_appName$xmlhumptoline, container, false);
+        return inflater.inflate(R.layout.fragment_$xmlhumptoline, container, false);
     }
 
     @Override

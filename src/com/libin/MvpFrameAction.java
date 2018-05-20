@@ -16,6 +16,8 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static java.awt.font.TextAttribute.UNDERLINE;
+
 public class MvpFrameAction extends AnAction {
 
     private Project project;
@@ -54,16 +56,16 @@ public class MvpFrameAction extends AnAction {
     private void init() {
         MyDialog myDialog = new MyDialog(new MyDialog.DialogCallBack() {
             @Override
-            public void ok(String author, String moduleName, String describe, boolean isAc) {
-                if (author == null || moduleName == null || moduleName.length() == 0 || author.length() == 0) {
+            public void ok(String author, String modleName, String describe, boolean isAc) {
+                if (author == null || modleName == null || modleName.length() == 0 || author.length() == 0) {
                     Messages.showInfoMessage(project, "something is empty", "Error");
                     return;
                 }
                 isActivity = isAc;
                 mAuthor = author;
-                mModelName = moduleName;
+                mModelName = modleName;
                 mDescribe = describe;
-
+                System.out.println("==mModelName=="+mModelName);
                 if (isActivity) {
                     createActivityClassFiles();
                 } else {
@@ -116,67 +118,110 @@ public class MvpFrameAction extends AnAction {
                 fileName = "TemplateActivity.txt";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
-                writeToFile(content, appPath + mModelName.toLowerCase(), mModelName + "Activity.java");
+                writeToFile(content, appPath + mModelName.toLowerCase(), upperCaseFirstLatter(mModelName) + "Activity.java");
 
                 xmlName = "TemplateXml.txt";
                 xmlContent = ReadTemplateFile(xmlName);
-                writeToFile(xmlContent, xmlPath, "activity_" + mModelName.toLowerCase() + humpToLine(mModelName) + ".xml");
+                writeToFile(xmlContent, xmlPath, "activity_" + mModelName.toLowerCase() + ".xml");
+
+                System.out.println("====转换1==="+mModelName.toLowerCase());
+                System.out.println("====转换2==="+upperCaseFirstLatter(mModelName));
+                System.out.println("====转换2==="+lowerCaseFirstLatter(mModelName));
                 break;
             case ActivityContract:
                 fileName = "TemplateActivityContract.txt";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
-                writeToFile(content, appPath + mModelName.toLowerCase(), mModelName + "Contract.java");
+                writeToFile(content, appPath + mModelName.toLowerCase(), upperCaseFirstLatter(mModelName) + "Contract.java");
                 break;
             case ActivityModel:
                 fileName = "TemplateActivityModel.txt";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
-                writeToFile(content, appPath + mModelName.toLowerCase(), mModelName + "Model.java");
+                writeToFile(content, appPath + mModelName.toLowerCase(), upperCaseFirstLatter(mModelName) + "Model.java");
                 break;
             case ActivityPresenter:
                 fileName = "TemplateActivityPresenter.txt";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
-                writeToFile(content, appPath + mModelName.toLowerCase(), mModelName + "Presenter.java");
+                writeToFile(content, appPath + mModelName.toLowerCase(), upperCaseFirstLatter(mModelName) + "Presenter.java");
                 break;
             case Fragment:
                 fileName = "TemplateFragment.txt";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
-                writeToFile(content, appPath + mModelName.toLowerCase(), mModelName + "Fragment.java");
+                writeToFile(content, appPath + mModelName.toLowerCase(), upperCaseFirstLatter(mModelName) + "Fragment.java");
 
                 xmlName = "TemplateXml.txt";
                 xmlContent = ReadTemplateFile(xmlName);
-                writeToFile(xmlContent, xmlPath, "fragment_" + mModelName.toLowerCase() + humpToLine(mModelName) + ".xml");
+                writeToFile(xmlContent, xmlPath, "fragment_" + mModelName.toLowerCase() + ".xml");
                 break;
             case FragmentContract:
                 fileName = "TemplateFragmentContract.txt";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
-                writeToFile(content, appPath + mModelName.toLowerCase(), mModelName + "Contract.java");
+                writeToFile(content, appPath + mModelName.toLowerCase(), upperCaseFirstLatter(mModelName) + "Contract.java");
                 break;
             case FragmentModel:
                 fileName = "TemplateFragmentModel.txt";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
-                writeToFile(content, appPath + mModelName.toLowerCase(), mModelName + "Model.java");
+                writeToFile(content, appPath + mModelName.toLowerCase(), upperCaseFirstLatter(mModelName) + "Model.java");
                 break;
             case FragmentPresenter:
                 fileName = "TemplateFragmentPresenter.txt";
                 content = ReadTemplateFile(fileName);
                 content = dealTemplateContent(content);
-                writeToFile(content, appPath + mModelName.toLowerCase(), mModelName + "Presenter.java");
+                writeToFile(content, appPath + mModelName.toLowerCase(), upperCaseFirstLatter(mModelName) + "Presenter.java");
                 break;
+        }
+    }
+
+    /**
+     * 首字母大写
+     * @param str
+     * @return
+     */
+    public static String upperCaseFirstLatter(String str){
+        if(Character.isUpperCase(str.charAt(0))){
+            return str;
+        }else {
+            char[] strChar=str.toCharArray();
+            strChar[0]-=32;
+            return String.valueOf(strChar);
+        }
+    }
+
+    public static String lowerCaseFirstLatter(String str){
+        if(Character.isLowerCase(str.charAt(0))){
+            return str;
+        }else {
+            char[] strChar=str.toCharArray();
+            strChar[0]+=32;
+            return String.valueOf(strChar);
         }
     }
 
     /**
      * 驼峰转下划线
      */
-    public static String humpToLine(String str) {
-        str.replace(str.substring(0, 1), str.substring(0, 1).toUpperCase());
-        return str.replaceAll("[A-Z]", "_$0").toLowerCase();
+    public static String humpToLine(String param){
+        param = lowerCaseFirstLatter(param);
+        if (param==null||"".equals(param.trim())){
+            return "";
+        }
+        int len=param.length();
+        StringBuilder sb=new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            char c=param.charAt(i);
+            if (Character.isUpperCase(c)){
+                sb.append('_');
+                sb.append(Character.toLowerCase(c));
+            }else{
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
 
     /**
@@ -212,16 +257,17 @@ public class MvpFrameAction extends AnAction {
      * @return
      */
     private String dealTemplateContent(String content) {
-        content = content.replace("$name", mModelName);
+        if (content.contains("$name")) {
+            content = content.replace("$name", upperCaseFirstLatter(mModelName));
+        }
         if (content.contains("$lName")) {
-            content = content.replace("$lName", mModelName.toLowerCase());
+            content = content.replace("$lName", lowerCaseFirstLatter(mModelName));
         }
         if (content.contains("$xmlhumptoline")) {
-            content = content.replace("$xmlhumptoline", humpToLine(mModelName.replace(mModelName.substring(0, 1), mModelName.substring(0, 1).toUpperCase())));
+            content = content.replace("$xmlhumptoline", humpToLine(upperCaseFirstLatter(mModelName)));
         }
         if (content.contains("$packagename")) {
             content = content.replace("$packagename", mPackageName + ".mvp." + mModelName.toLowerCase());
-            System.out.println("===content====" + content);
         }
         if (content.contains("$basepackagename")) {
             content = content.replace("$basepackagename", mPackageName);
@@ -329,8 +375,6 @@ public class MvpFrameAction extends AnAction {
                 Node node = nodeList.item(i);
                 Element element = (Element) node;
                 package_name = element.getAttribute("package");
-                System.out.println("==element==" + element);
-                System.out.println("==package_name==" + package_name);
             }
 
         } catch (Exception e) {
