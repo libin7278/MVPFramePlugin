@@ -122,7 +122,7 @@ public class MvpFrameAction extends AnAction {
 
                 xmlName = "TemplateXml.txt";
                 xmlContent = ReadTemplateFile(xmlName);
-                writeToFile(xmlContent, xmlPath, "activity_" + mModelName.toLowerCase() + ".xml");
+                writeToFile(xmlContent, xmlPath, "activity_" + humpToLine(upperCaseFirstLatter(mModelName)) + ".xml");
 
                 System.out.println("====转换1==="+mModelName.toLowerCase());
                 System.out.println("====转换2==="+upperCaseFirstLatter(mModelName));
@@ -154,7 +154,7 @@ public class MvpFrameAction extends AnAction {
 
                 xmlName = "TemplateXml.txt";
                 xmlContent = ReadTemplateFile(xmlName);
-                writeToFile(xmlContent, xmlPath, "fragment_" + mModelName.toLowerCase() + ".xml");
+                writeToFile(xmlContent, xmlPath, "fragment_" + humpToLine(upperCaseFirstLatter(mModelName)) + ".xml");
                 break;
             case FragmentContract:
                 fileName = "TemplateFragmentContract.txt";
