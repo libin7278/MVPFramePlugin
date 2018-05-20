@@ -1,8 +1,13 @@
 package $packagename;
 
-import $basepackagename.base.mvp.FragmentPresenter;
+import android.app.Application;
+
+import com.xzxj.frame.integration.AppManager;
+import com.xzxj.frame.mvp.BasePresenter;
 
 import javax.inject.Inject;
+
+import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
  /**
   * <pre>
@@ -11,10 +16,24 @@ import javax.inject.Inject;
   *     desc  : $description
   * </pre>
   */
-public class $namePresenter extends FragmentPresenter<$nameContract.IView, $nameMoudle> implements $nameContract.IPresenter
-{
+public class $namePresenter extends BasePresenter<$nameContract.Model, $nameContract.View> {
     @Inject
-    public $namePresenter()
-    {
+    RxErrorHandler mErrorHandler;
+    @Inject
+    AppManager mAppManager;
+    @Inject
+    Application mApplication;
+
+    @Inject
+    public $namePresenter($nameContract.Model model, $nameContract.View rootView) {
+        super(model, rootView);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.mErrorHandler = null;
+        this.mAppManager = null;
+        this.mApplication = null;
     }
 }

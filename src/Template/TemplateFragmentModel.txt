@@ -1,5 +1,9 @@
 package $packagename;
 
+import com.xzxj.frame.injection.scope.FragmentScope;
+import com.xzxj.frame.integration.IRepositoryManager;
+import com.xzxj.frame.mvp.BaseModel;
+
 import javax.inject.Inject;
 
  /**
@@ -9,12 +13,11 @@ import javax.inject.Inject;
   *     desc  : $description
   * </pre>
   */
-public class $nameMoudle implements $nameContract.IMoudle
-{
+@FragmentScope
+public class $nameModel extends BaseModel implements $nameContract.Model {
 
     @Inject
-    public $nameMoudle()
-    {
+    public $nameModel(IRepositoryManager repositoryManager) {
+        super(repositoryManager);
     }
-
 }

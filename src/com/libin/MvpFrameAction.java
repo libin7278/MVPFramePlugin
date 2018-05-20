@@ -213,6 +213,7 @@ public class MvpFrameAction extends AnAction {
      */
     private String dealTemplateContent(String content) {
         content = content.replace("$name", mModelName);
+        content = content.replace("$lName", mModelName.toLowerCase());
         if (content.contains("$packagename")) {
             content = content.replace("$packagename", mPackageName + ".mvp." + mModelName.toLowerCase());
             System.out.println("===content===="+content);

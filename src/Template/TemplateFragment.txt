@@ -1,14 +1,14 @@
 package $packagename;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import $basepackagename.R;
-import $basepackagename.base.BaseFragment;
-import $basepackagename.databinding.$bindingFragment$nameBinding;
+import com.xzxj.frame.base.BaseFragment;
+import com.xzxj.frame.injection.component.AppComponent;
 
  /**
   * <pre>
@@ -17,47 +17,40 @@ import $basepackagename.databinding.$bindingFragment$nameBinding;
   *     desc  : $description
   * </pre>
   */
-public class $nameFragment extends BaseFragment<$namePresenter> implements $nameContract.IView
-{
-    private $bindingFragment$nameBinding mBinding;
+public class $nameFragment extends BaseFragment<SecondPresenter> implements SecondContract.View {
 
-    public static $nameFragment create()
-    {
-        $nameFragment fragment = new $nameFragment();
+    public static $nameFragment newInstance() {
+
         Bundle args = new Bundle();
+
+        $nameFragment fragment = new $nameFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    protected void initInject()
-    {
-//        getFragmentComponent().inject(this);
+    public void setupFragmentComponent(@NonNull AppComponent appComponent) {
+        Dagger$nameComponent //如找不到该类,请编译一下项目
+                .builder()
+                .appComponent(appComponent)
+                .$lNameModule(new $nameModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
-    protected View loadContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        mBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.$appName_fragment$xmlhumptoline, container, false);
-        return mBinding.getRoot();
+    public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.$fragment_appName$xmlhumptoline, container, false);
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState)
-    {
-        super.initViews(savedInstanceState);
+    public void initData(@Nullable Bundle savedInstanceState) {
+
     }
 
     @Override
-    protected void initData()
-    {
-        super.initData();
+    public void onDestroyView() {
+        super.onDestroyView();
     }
-
-    @Override
-    protected void initEvent()
-    {
-        super.initEvent();
-    }
-
 }
+
