@@ -21,17 +21,3 @@ public interface $nameContract {
 
     }
 }
-public interface $nameContract
-{
-    interface IMoudle extends Moudle
-    {
-    }
-
-    interface IView extends FragmentView
-    {
-    }
-
-    interface IPresenter
-    {
-    }
-}

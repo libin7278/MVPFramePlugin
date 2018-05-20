@@ -213,10 +213,15 @@ public class MvpFrameAction extends AnAction {
      */
     private String dealTemplateContent(String content) {
         content = content.replace("$name", mModelName);
-        content = content.replace("$lName", mModelName.toLowerCase());
+        if (content.contains("$lName")) {
+            content = content.replace("$lName", mModelName.toLowerCase());
+        }
+        if (content.contains("$xmlhumptoline")) {
+            content = content.replace("$xmlhumptoline", humpToLine(mModelName.replace(mModelName.substring(0, 1), mModelName.substring(0, 1).toUpperCase())));
+        }
         if (content.contains("$packagename")) {
             content = content.replace("$packagename", mPackageName + ".mvp." + mModelName.toLowerCase());
-            System.out.println("===content===="+content);
+            System.out.println("===content====" + content);
         }
         if (content.contains("$basepackagename")) {
             content = content.replace("$basepackagename", mPackageName);
@@ -224,7 +229,6 @@ public class MvpFrameAction extends AnAction {
         content = content.replace("$author", mAuthor);
         content = content.replace("$description", mDescribe);
         content = content.replace("$date", getDate());
-        content = content.replace("$xmlhumptoline", humpToLine(mModelName.replace(mModelName.substring(0, 1), mModelName.substring(0, 1).toUpperCase())));
         return content;
     }
 
