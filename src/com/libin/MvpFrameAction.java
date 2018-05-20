@@ -31,6 +31,7 @@ public class MvpFrameAction extends AnAction {
     private enum CodeType {
         Activity, ActivityContract, ActivityPresenter, ActivityModel,
         Fragment, FragmentContract, FragmentPresenter, FragmentModel,
+        Component, Module
     }
 
     @Override
@@ -65,12 +66,14 @@ public class MvpFrameAction extends AnAction {
                 mAuthor = author;
                 mModelName = modleName;
                 mDescribe = describe;
-                System.out.println("==mModelName=="+mModelName);
+                System.out.println("==mModelName==" + mModelName);
                 if (isActivity) {
                     createActivityClassFiles();
                 } else {
                     createFragmentClassFiles();
                 }
+                createClassFile(CodeType.Component);
+                createClassFile(CodeType.Module);
                 Messages.showInfoMessage(project, "create mvp code success", "Success");
             }
         });
@@ -81,11 +84,6 @@ public class MvpFrameAction extends AnAction {
     /**
      * 生成类文件
      */
-    private void createClassFiles() {
-        createClassFile(CodeType.Activity);
-        createClassFile(CodeType.Fragment);
-    }
-
     private void createActivityClassFiles() {
         createClassFile(CodeType.Activity);
         createClassFile(CodeType.ActivityContract);
@@ -108,7 +106,8 @@ public class MvpFrameAction extends AnAction {
     private void createClassFile(CodeType codeType) {
         String fileName = "";
         String content = "";
-        String appPath = getAppPath();
+        String appPath = getAppPath()+"mvp/";
+        String diPath = getAppPath()+"di/";
 
         String xmlName = "";
         String xmlContent = "";
@@ -124,9 +123,6 @@ public class MvpFrameAction extends AnAction {
                 xmlContent = ReadTemplateFile(xmlName);
                 writeToFile(xmlContent, xmlPath, "activity_" + humpToLine(upperCaseFirstLatter(mModelName)) + ".xml");
 
-                System.out.println("====转换1==="+mModelName.toLowerCase());
-                System.out.println("====转换2==="+upperCaseFirstLatter(mModelName));
-                System.out.println("====转换2==="+lowerCaseFirstLatter(mModelName));
                 break;
             case ActivityContract:
                 fileName = "TemplateActivityContract.txt";
@@ -174,30 +170,43 @@ public class MvpFrameAction extends AnAction {
                 content = dealTemplateContent(content);
                 writeToFile(content, appPath + mModelName.toLowerCase(), upperCaseFirstLatter(mModelName) + "Presenter.java");
                 break;
+            case Component:
+                fileName = "TemplateComponent.txt";
+                content = ReadTemplateFile(fileName);
+                content = dealTemplateContent(content);
+                writeToFile(content, diPath +"component/" , upperCaseFirstLatter(mModelName) + "Component.java");
+                break;
+            case Module:
+                fileName = "TemplateModule.txt";
+                content = ReadTemplateFile(fileName);
+                content = dealTemplateContent(content);
+                writeToFile(content, diPath +"module/" , upperCaseFirstLatter(mModelName) + "Module.java");
+                break;
         }
     }
 
     /**
      * 首字母大写
+     *
      * @param str
      * @return
      */
-    public static String upperCaseFirstLatter(String str){
-        if(Character.isUpperCase(str.charAt(0))){
+    public static String upperCaseFirstLatter(String str) {
+        if (Character.isUpperCase(str.charAt(0))) {
             return str;
-        }else {
-            char[] strChar=str.toCharArray();
-            strChar[0]-=32;
+        } else {
+            char[] strChar = str.toCharArray();
+            strChar[0] -= 32;
             return String.valueOf(strChar);
         }
     }
 
-    public static String lowerCaseFirstLatter(String str){
-        if(Character.isLowerCase(str.charAt(0))){
+    public static String lowerCaseFirstLatter(String str) {
+        if (Character.isLowerCase(str.charAt(0))) {
             return str;
-        }else {
-            char[] strChar=str.toCharArray();
-            strChar[0]+=32;
+        } else {
+            char[] strChar = str.toCharArray();
+            strChar[0] += 32;
             return String.valueOf(strChar);
         }
     }
@@ -205,19 +214,19 @@ public class MvpFrameAction extends AnAction {
     /**
      * 驼峰转下划线
      */
-    public static String humpToLine(String param){
+    public static String humpToLine(String param) {
         param = lowerCaseFirstLatter(param);
-        if (param==null||"".equals(param.trim())){
+        if (param == null || "".equals(param.trim())) {
             return "";
         }
-        int len=param.length();
-        StringBuilder sb=new StringBuilder(len);
+        int len = param.length();
+        StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++) {
-            char c=param.charAt(i);
-            if (Character.isUpperCase(c)){
+            char c = param.charAt(i);
+            if (Character.isUpperCase(c)) {
                 sb.append('_');
                 sb.append(Character.toLowerCase(c));
-            }else{
+            } else {
                 sb.append(c);
             }
         }
@@ -232,7 +241,7 @@ public class MvpFrameAction extends AnAction {
     private String getAppPath() {
         String packagePath = mPackageName.replace(".", "/");
         String appPath;
-        appPath = project.getBasePath() + "/app/src/main/java/" + packagePath + "/mvp/";
+        appPath = project.getBasePath() + "/app/src/main/java/" + packagePath + "/";
         System.out.println("=====appPath== java ====" + appPath);
 
         return appPath;
@@ -271,6 +280,12 @@ public class MvpFrameAction extends AnAction {
         }
         if (content.contains("$basepackagename")) {
             content = content.replace("$basepackagename", mPackageName);
+        }
+        if(!isActivity){
+            content = content.replace("$isActivity", "Fragment");
+        }else {
+            content = content.replace("$isActivity", "Activity");
+
         }
         content = content.replace("$author", mAuthor);
         content = content.replace("$description", mDescribe);

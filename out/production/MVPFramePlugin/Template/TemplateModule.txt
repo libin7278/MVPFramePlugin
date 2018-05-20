@@ -1,0 +1,39 @@
+package $packagename;
+
+import com.xzxj.frame.injection.scope.ActivityScope;
+
+import dagger.Module;
+import dagger.Provides;
+
+ /**
+  * <pre>
+  *     author: $author
+  *     time  : $date
+  *     desc  : $description
+  * </pre>
+  */
+@Module
+public class $nameModule {
+    private $nameContract.View view;
+
+    /**
+     * 构建 $nameModule 时,将 View 的实现类传进来,这样就可以提供 View 的实现类给 Presenter
+     *
+     * @param view
+     */
+    public $nameModule($nameContract.View view) {
+        this.view = view;
+    }
+
+    @$isActivityScope
+    @Provides
+    $nameContract.View provide$nameView() {
+        return this.view;
+    }
+
+    @$isActivityScope
+    @Provides
+    $nameContract.Model provide$nameModel($nameModel model) {
+        return model;
+    }
+}

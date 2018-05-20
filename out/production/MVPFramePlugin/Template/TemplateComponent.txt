@@ -1,0 +1,19 @@
+package $packagename;
+
+import com.xzxj.frame.injection.component.AppComponent;
+import com.xzxj.frame.injection.scope.ActivityScope;
+
+import dagger.Component;
+
+ /**
+  * <pre>
+  *     author: $author
+  *     time  : $date
+  *     desc  : $description
+  * </pre>
+  */
+@$isActivityScope
+@Component(modules = $nameModule.class, dependencies = AppComponent.class)
+public interface $nameComponent {
+    void inject($nameActivity activity);
+}
